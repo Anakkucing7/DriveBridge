@@ -13,7 +13,7 @@ Buka http://127.0.0.1:3000. Isi `.env` (atau salin `.env.example` ke `.env` jika
 
 Untuk deployment, Vercel melayani `public/` dan menjalankan handler `api/*.mjs` sebagai Node.js Functions. `server.mjs` hanya untuk menjalankan server di komputer pengembang. Isi empat variable yang sama di **Vercel Project → Settings → Environment Variables**, lalu deploy/redeploy. File `.env` tidak dikirim ke GitHub atau Vercel; sudah dikecualikan lewat `.gitignore` dan `.vercelignore`.
 
-**Status:** implementasi lokal; API key Google dan proyek Supabase untuk aplikasi ini belum dikonfigurasi. File contoh lokal bisa dicoba tanpa key. Belum push ke GitHub atau deploy Vercel.
+**Status:** source sudah tersedia di [GitHub](https://github.com/Anakkucing7/DriveBridge) dan website sudah terbit di [Vercel](https://drivebridge-one.vercel.app). Google API key dan token unduhan sudah dipasang sebagai secret production. Proyek Supabase belum dikonfigurasi; API production mengembalikan 503 sampai URL, secret key, dan SQL setup Supabase tersedia. File contoh lokal/production bisa dicoba.
 
-**Batas:** file publik biasa saja, tanpa folder/Google Docs asli. Target Chrome 109/Firefox 115 ESR, bukan Internet Explorer. Transfer dibatasi durasi server sekitar 285 detik. Belum diuji pada Windows 7 sungguhan atau deployment Vercel.
+**Batas:** file publik biasa saja, tanpa folder/Google Docs asli. Target Chrome 109/Firefox 115 ESR, bukan Internet Explorer. Transfer dibatasi durasi server sekitar 285 detik. Halaman, aset, endpoint API, dan penolakan akses `.env` sudah diperiksa pada Vercel. Unduhan Google Drive production dan perangkat Windows 7 sungguhan belum diuji.
 
