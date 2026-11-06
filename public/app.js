@@ -7,6 +7,8 @@
   var status = document.getElementById('status');
   var result = document.getElementById('file-result');
   var link = document.getElementById('download-link');
+  var fallback = document.getElementById('fallback-link');
+  var help = document.getElementById('download-help');
   var request = null;
   var demo = false;
   var expiryTimer = null;
@@ -28,6 +30,8 @@
     result.hidden = true;
     link.removeAttribute('href');
     link.removeAttribute('download');
+    fallback.hidden = true;
+    fallback.removeAttribute('href');
     input.removeAttribute('aria-invalid');
     message('', false);
     demo = false;
@@ -40,8 +44,16 @@
   }
   function showFile(data) {
     document.getElementById('file-name').textContent = data.name;
-    document.getElementById('file-meta').textContent = size(data.size) + ' · ' + data.mimeType;
+    document.getElementById('file-meta').textContent = (data.size === null ? 'Ukuran ekspor ditentukan Google' : size(data.size)) + ' · ' + data.mimeType;
     link.href = data.downloadUrl;
+    if (demo) help.textContent = 'Contoh file lokal. Progres unduhan tampil di browser Anda.';
+    else if (data.downloadMode === 'proxy') help.textContent = 'Mode kompatibel: maks. ' + (data.proxyLimitBytes === 10485760 ? '10' : '25') + ' MiB dan 60 detik. Tautan berlaku 10 menit; progres tampil di browser.';
+    else help.textContent = (data.downloadMode === 'export' ? 'Ekspor PDF langsung dari Google. ' : 'Unduh langsung dari Google. ') + 'Google memeriksa ulang izin dan keamanan. Tautan aplikasi berlaku 10 menit.';
+    if (data.fallbackUrl) {
+      fallback.href = data.fallbackUrl;
+      fallback.textContent = 'Jika unduhan langsung gagal: mode kompatibel (maks. ' + (data.proxyLimitBytes === 10485760 ? '10' : '25') + ' MiB / 60 detik)';
+      fallback.hidden = false;
+    }
     result.hidden = false;
   }
   input.addEventListener('input', reset);
@@ -88,6 +100,7 @@
     link.focus();
   });
   link.addEventListener('click', function () { message(demo ? 'File contoh dikirim. Lihat pengelola unduhan browser Anda.' : 'Permintaan unduhan dikirim. Lihat pengelola unduhan browser; status selesai ditampilkan di sana.', false); });
+  fallback.addEventListener('click', function () { message('Mode kompatibel diproses lewat server dan dibatasi ukuran serta 60 detik. Cek status selesai di pengelola unduhan browser.', false); });
   var faqs = document.querySelectorAll('.faq button');
   for (var i = 0; i < faqs.length; i++) {
     faqs[i].addEventListener('click', function () {
@@ -98,4 +111,3 @@
     });
   }
 }());
-

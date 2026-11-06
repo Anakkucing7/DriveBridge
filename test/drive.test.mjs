@@ -97,7 +97,9 @@ test('HTTP flow: inspect, stream and resume with mocked Google; errors remain us
   mode = 'blocked';
   assert.equal((await post({ url: 'https://drive.google.com/file/d/' + id + '/view?resourcekey=0-abc' })).status, 403);
   mode = 'docs';
-  assert.equal((await post({ url: 'https://drive.google.com/file/d/' + id + '/view?resourcekey=0-abc' })).status, 400);
+  const document = await post({ url: 'https://drive.google.com/file/d/' + id + '/view?resourcekey=0-abc' });
+  assert.equal(document.status, 200);
+  assert.equal((await document.json()).mimeType, 'application/pdf');
   assert.equal((await post('{broken')).status, 400);
   assert.equal((await post('x'.repeat(5000))).status, 413);
   assert.equal((await originalFetch(base + '/api/inspect')).status, 405);
@@ -138,4 +140,3 @@ test('browser bundle avoids modern JavaScript syntax and external assets', async
   assert.match(html, /aria-live="polite"/);
   assert.match(html, /<label for="drive-url">/);
 });
-

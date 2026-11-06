@@ -49,7 +49,8 @@
         <div id="file-result" class="file-result" hidden>
           <div class="file-row"><span class="file-icon"><svg class="icon"><use href="#i-file" xlink:href="#i-file"/></svg></span><div class="file-description"><span class="result-label">FILE SIAP DIUNDUH</span><h3 id="file-name"></h3><p id="file-meta"></p></div></div>
           <a class="primary" id="download-link"><svg class="icon"><use href="#i-download" xlink:href="#i-download"/></svg>Unduh ke perangkat</a>
-          <p class="field-help">Tautan berlaku 10 menit. Progres unduhan tampil di browser Anda.</p>
+          <p class="field-help" id="download-help">Tautan berlaku 10 menit. Progres unduhan tampil di browser Anda.</p>
+          <a class="fallback-link" id="fallback-link" hidden>Gunakan mode kompatibel jika unduhan langsung gagal</a>
         </div>
         <p class="privacy-note"><svg class="icon"><use href="#i-shield" xlink:href="#i-shield"/></svg>Tanpa login Google. Isi file tidak disimpan oleh DriveBridge.</p>
       </div>
@@ -67,17 +68,16 @@
       <div class="section-wrap"><h2 id="benefits-title">Komputer lama. Akses tetap terbuka.</h2><div class="benefit-list">
         <div class="benefit"><svg class="icon"><use href="#i-laptop" xlink:href="#i-laptop"/></svg><div><h3>Ringan dari awal</h3><p>Antarmuka sederhana tanpa library besar, agar komputer lama tetap nyaman.</p></div></div>
         <div class="benefit"><svg class="icon"><use href="#i-user" xlink:href="#i-user"/></svg><div><h3>Tanpa login Google</h3><p>Cukup tautan file publik. Akun dan kata sandi Google Anda tidak diperlukan.</p></div></div>
-        <div class="benefit"><svg class="icon"><use href="#i-cloud" xlink:href="#i-cloud"/></svg><div><h3>Unduhan lewat server</h3><p>Server mengambil file dari Drive, lalu meneruskannya ke perangkat Anda.</p></div></div>
+        <div class="benefit"><svg class="icon"><use href="#i-cloud" xlink:href="#i-cloud"/></svg><div><h3>Langsung dari Google</h3><p>Utamakan tautan resmi Google. Mode kompatibel terbatas tersedia untuk file kecil.</p></div></div>
       </div></div>
     </section>
     <section id="bantuan" class="help-section" aria-labelledby="help-title"><div class="help-intro"><span class="section-label">BANTUAN SINGKAT</span><h2 id="help-title">Ada yang ingin <br>ditanyakan?</h2><p>Beberapa hal sebelum<br>mulai mengunduh.</p></div><div class="faq-list">
-      <div class="faq"><h3><button aria-expanded="false" aria-controls="faq-one">File apa yang bisa diunduh?<span aria-hidden="true">+</span></button></h3><div id="faq-one" hidden><p>File publik seperti ZIP, PDF, gambar, audio, dan video yang diizinkan untuk diunduh oleh pemilik. Folder dan dokumen asli Google Docs, Sheets, atau Slides belum didukung. DriveBridge tidak melewati izin akses atau batas kuota Google.</p></div></div>
+      <div class="faq"><h3><button aria-expanded="false" aria-controls="faq-one">File apa yang bisa diunduh?<span aria-hidden="true">+</span></button></h3><div id="faq-one" hidden><p>File publik seperti ZIP, PDF, gambar, audio, dan video yang diizinkan untuk diunduh oleh pemilik. Google Docs, Sheets, dan Slides diekspor sebagai PDF. Folder dan shortcut belum didukung. DriveBridge tidak melewati izin akses, pemeriksaan malware, atau kuota Google.</p></div></div>
       <div class="faq"><h3><button aria-expanded="false" aria-controls="faq-two">Apakah pasti bisa di semua Windows 7?<span aria-hidden="true">+</span></button></h3><div id="faq-two" hidden><p>Dirancang untuk browser seperti Chrome 109 dan Firefox 115 ESR di Windows 7. Internet Explorer tidak didukung. Sertifikat HTTPS, TLS, dan kondisi browser tetap memengaruhi akses. Pengujian langsung di perangkat Windows 7 masih diperlukan.</p></div></div>
-      <div class="faq"><h3><button aria-expanded="false" aria-controls="faq-three">Kenapa file saya tidak bisa diunduh?<span aria-hidden="true">+</span></button></h3><div id="faq-three" hidden><p>Pastikan pemilik memilih Bagikan → Akses umum → Siapa saja yang memiliki link, dan mengizinkan unduhan. Jika kuota Google habis, tunggu dan coba lagi. Transfer lewat server dibatasi sekitar 285 detik; file besar atau koneksi lambat dapat terputus.</p></div></div>
+      <div class="faq"><h3><button aria-expanded="false" aria-controls="faq-three">Kenapa file saya tidak bisa diunduh?<span aria-hidden="true">+</span></button></h3><div id="faq-three" hidden><p>Pastikan akses umum file adalah Siapa saja yang memiliki link dan pemilik mengizinkan unduhan. Tautan resmi diperiksa tanpa login, tetapi Google tetap dapat memeriksa ulang izin atau keamanan saat dibuka. Mode kompatibel dibatasi 25 MiB per file, 10 MiB per ekspor PDF, dan 60 detik; file besar atau koneksi lambat bisa terputus. Jika tautan langsung tidak dapat diverifikasi dan file terlalu besar, gunakan unduhan resmi Google.</p></div></div>
       <div class="faq"><h3><button aria-expanded="false" aria-controls="faq-four">Apakah tautan dan file saya disimpan?<span aria-hidden="true">+</span></button></h3><div id="faq-four" hidden><p>Isi file tidak disimpan. Server memproses tautan dan metadata untuk unduhan. Supabase hanya menyimpan penghitung permintaan dan identitas jaringan yang diacak setiap menit untuk membatasi penyalahgunaan. Hosting dan Google dapat mencatat permintaan sesuai kebijakannya.</p></div></div>
     </div></section>
   </main>
   <footer><div class="footer-wrap"><a class="brand" href="/"><svg class="brand-icon"><use href="#i-bridge" xlink:href="#i-bridge"/></svg>DriveBridge</a><p>Menghubungkan file Anda, melampaui usia perangkat.</p><span>Independen. Tidak berafiliasi dengan Google.</span></div></footer>
 </body>
 </html>
-
