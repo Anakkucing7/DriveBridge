@@ -132,6 +132,36 @@ test('Supabase rate limiter uses server key and respects deny response', async (
   } finally { globalThis.fetch = originalFetch; process.env = originalEnv; }
 });
 
+test('Supabase connection and malformed RPC failures return 503 without leaking credentials or bypassing limits', async t => {
+  const { rateLimit, acquireProxy } = await import('../lib/rate-limit.mjs');
+  const originalEnv = { ...process.env };
+  process.env.SUPABASE_URL = 'https://example.supabase.co';
+  process.env.SUPABASE_SECRET_KEY = 'sb_secret_test';
+  const logs = [];
+  t.mock.method(console, 'error', (...args) => logs.push(args));
+  const fetchMock = t.mock.method(globalThis, 'fetch');
+  const request = { headers: {}, socket: { remoteAddress: '127.0.0.1' } };
+  try {
+    for (const failure of [
+      async () => { throw new TypeError('fetch failed: sb_secret_test', { cause: { code: 'ENOTFOUND' } }); },
+      async () => { throw new DOMException('timed out', 'TimeoutError'); },
+      async () => new Response('not JSON'),
+      async () => Response.json({ allowed: true })
+    ]) {
+      fetchMock.mock.mockImplementation(failure);
+      await assert.rejects(rateLimit(request, 'inspect'), { status: 503 });
+      await assert.rejects(acquireProxy(), { status: 503 });
+    }
+    assert.ok(logs.some(args => args.includes('ENOTFOUND')));
+    assert.ok(!JSON.stringify(logs).includes('sb_secret_test'));
+    fetchMock.mock.mockImplementation(async () => Response.json(true));
+    const releaseFirst = await acquireProxy();
+    const releaseSecond = await acquireProxy();
+    try { await assert.rejects(acquireProxy(), { status: 429 }); }
+    finally { releaseFirst(); releaseSecond(); }
+  } finally { process.env = originalEnv; }
+});
+
 test('browser bundle avoids modern JavaScript syntax and external assets', async () => {
   const js = await readFile(new URL('../public/app.js', import.meta.url), 'utf8');
   assert.doesNotMatch(js, /\b(?:const|let|async|await|import)\b|=>|\?\./);

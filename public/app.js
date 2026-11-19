@@ -69,7 +69,7 @@
     request = xhr;
     xhr.open('POST', '/api/inspect', true);
     xhr.setRequestHeader('Content-Type', 'application/json');
-    xhr.timeout = 25000;
+    xhr.timeout = 35000;
     xhr.onload = function () {
       if (request !== xhr) return;
       request = null;
